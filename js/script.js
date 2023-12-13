@@ -12,6 +12,3 @@ if (!window.localStorage.getItem("username")) {
     lastScore.textContent = window.localStorage.getItem("score"); 
 }
 loadHeaderFooter();
-
-
-
