@@ -1,3 +1,4 @@
+import { getRandomIntInclusive } from "./utils.js";
 // variables to compare cards
 let first;
 let second;
@@ -15,6 +16,7 @@ let idNums = randomArray();
 cards = [...idNums, ...idNums];
 console.log(cards);
 let shuffledCards = shuffle(cards);
+console.log(shuffledCards);
 
 // get the cards container
 const cardContainer = document.getElementById("card-container");
@@ -26,7 +28,8 @@ export async function getPoke(url) {
         if (response.ok) {
             const data = await response.json();
             // render the card with the createCard function
-            createCard(data);
+            console.log("inPoke", data.id);
+            return data;
         } else {
             throw Error(await response.text());
         }
@@ -63,12 +66,6 @@ export function randomArray()
     return randomArray;
 }
 
-// function to get random ints
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 // render the details at the end of the page
 function pokemonDetails(pokemon) {
@@ -97,12 +94,18 @@ export function createCard(pokemon) {
                         <div class="sec"></div>`;
                         cardContainer.appendChild(card);
                         card.addEventListener("click", flip);
-    }
+                    }
 
 // call API for each element in the shuffledCards array and render cards
 for(let i = 0; i <= shuffledCards.length-1; i++){
     getPoke(`https://pokeapi.co/api/v2/pokemon/${shuffledCards[i]}`)
-}
+    .then((data) => {
+        console.log("forloop", shuffledCards[i]);
+        createCard(data);
+    });
+    ;};
+    
+
 
 function flip() {
     // if it is already matched or it's the first card, do nothing
@@ -174,7 +177,8 @@ function allowPlay() {
 }
 
 function shuffle(array) {
-    let currentIndex = array.length,  randomIndex;
+    let currentIndex = array.length;
+    let randomIndex;
 
   while (currentIndex > 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);

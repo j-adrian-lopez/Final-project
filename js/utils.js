@@ -31,4 +31,12 @@ export function loadHeaderFooter() {
     renderWithTemplate(footerHTML, footer);
   }
 
+  // function to get random ints
+export function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
 
